@@ -1,23 +1,22 @@
 import express, { Application } from 'express';
-import route from './src/interfaces/routes';
 import helmet from 'helmet';
 import nocache from 'nocache';
 import compression from 'compression';
 import logger from 'morgan';
 import cors from 'cors';
 import env from 'dotenv';
+import grpcServer from './src/interfaces/grpc-config/grpc-server';
 
 
 class nodeApp {
   public  app: Application
 
   constructor() {
-    this.app = express()
-
-    this.initialiseMiddleware()
-    this.initialiseRoutes()
     env.config()
+    this.app = express()
     
+    this.initialiseMiddleware()
+    this.initiliseGatewayListner()
   }
 
 
@@ -31,12 +30,13 @@ class nodeApp {
     this.app.use(express.urlencoded({ extended: false }));
   }
 
-  private initialiseRoutes(): void {
-    this.app.use('/nodal', route)
+  private initiliseGatewayListner ():void {
+    grpcServer()
   }
 
-  public listen(): void {
-    this.app.listen(process.env.PORT, () => console.log('nodal service is running at', process.env.PORT))
+
+  public listen(port:string): void {
+    this.app.listen(port, () => console.log('nodal service is running at',port))
   }
 }
 

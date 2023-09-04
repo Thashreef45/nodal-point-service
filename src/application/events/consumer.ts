@@ -20,5 +20,5 @@
 //         console.log(error)  
 //     }
 // }
-
+ 
 // export default registerNodal

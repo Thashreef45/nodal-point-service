@@ -9,6 +9,7 @@ const nodalSchema : Schema = new Schema({
     },
     channelPartners : Array,
     id:String,
+    name:String,
     apex:String,
     employee:Array,
     phone:Number,
