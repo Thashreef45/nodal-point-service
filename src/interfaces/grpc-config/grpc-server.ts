@@ -23,7 +23,9 @@ const grpcServer = () => {
 }
 
 server.addService(nodalPackage.nodalService.service,{
-    "Home":controller.home
+    "Home":controller.home,
+    "Login":controller.login,
+    "createNodal":controller.createNodal
 })
 
 

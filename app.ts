@@ -6,17 +6,20 @@ import logger from 'morgan';
 import cors from 'cors';
 import env from 'dotenv';
 import grpcServer from './src/interfaces/grpc-config/grpc-server';
-
+import addNewCP from './src/application/events/consumer/add-new-cp';
+import acceptBookedFdm from './src/application/events/consumer/assign-fdm-cp';
+import removeSendingFdm from './src/application/events/consumer/remove-sending-fdm';
 
 class nodeApp {
-  public  app: Application
+  public app: Application
 
   constructor() {
     env.config()
     this.app = express()
-    
+
     this.initialiseMiddleware()
     this.initiliseGatewayListner()
+    this.messageConsumers()
   }
 
 
@@ -30,13 +33,18 @@ class nodeApp {
     this.app.use(express.urlencoded({ extended: false }));
   }
 
-  private initiliseGatewayListner ():void {
+  private messageConsumers() {
+    acceptBookedFdm()
+    addNewCP()
+    removeSendingFdm()
+  }
+
+  private initiliseGatewayListner(): void {
     grpcServer()
   }
 
-
-  public listen(port:string): void {
-    this.app.listen(port, () => console.log('nodal service is running at',port))
+  public listen(port: string): void {
+    this.app.listen(port, () => console.log('nodal service is running at', port))
   }
 }
 

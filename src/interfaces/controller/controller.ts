@@ -1,30 +1,11 @@
-import { Request, Response } from 'express'
 import nodalHome from '../../application/usecase/nodal-home'
-// import nodalSignup from '../../application/usecase/create-nodal'
+import login from '../../application/usecase/login'
+import createNodal from '../../application/usecase/create-nodal'
 // import findNodal from '../../application/usecase/findnodal';
-// import login from '../../application/usecase/login';
+
 
 export default {
 
-    // createNodal : async(req:Request, res:Response)=> {
-    //     const ret:{message:string,data?:{}} = await nodalSignup(req.body,String(req.headers.token));
-    //     if(ret?.message === 'success'){
-    //         res.status(201).json(ret)
-    //     }else if(ret.message == 'Apex not authorized'){
-    //         res.status(401).json(ret)
-    //     }
-    //     else res.status(409).json(ret)
-    // },
-
-    // login : async(req:Request , res:Response) =>{
-    //     const data = req.body
-    //     const response =  await login(data)
-    //     if(response?.message == "success"){
-    //         res.status(200).json(response)
-    //     }else if(response?.message == 'Wrong password'){
-    //         res.status(401).json(response)
-    //     }else res.status(404).json(response)
-    // },
 
     // findNodal : async(req:Request,res:Response) => {
     //     const nodalFound = await findNodal(String(req.params))
@@ -35,10 +16,21 @@ export default {
     //     }
     // },
 
-    home : async (call:any,callback:any) =>{
-        const id = call.request.id
-        const response = await nodalHome(id)
+    createNodal: async (call:any , callback :any) => {
+        const response = await createNodal(call.request)
         callback(null,response)
+    },
+
+    login: async (call: any, callback: any) => {
+        const data = call.request
+        let response = await login(data)
+        callback(null, response)
+    },
+
+
+    home: async (call: any, callback: any) => {
+        const response = await nodalHome(call.request.id)
+        callback(null, response)
     }
 
 }
