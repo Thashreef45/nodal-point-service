@@ -1,9 +1,9 @@
 import {connect} from "mongoose"
-
+import { config } from "dotenv"
+config()
 
 function connectDB(){
-    const dbLink:string = process.env.DB_CONNECTION  || "mongodb://127.0.0.1:27017/nodal-service"
-    connect(dbLink).then(()=>console.log('nodal-service-db-connected'))
+    connect(String(process.env.DB_CONNECTION)).then(()=>console.log('nodal-service-db-connected'))
 }
 
 export default connectDB

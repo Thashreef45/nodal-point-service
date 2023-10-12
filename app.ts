@@ -1,23 +1,25 @@
 import express, { Application } from 'express';
-import route from './src/interfaces/routes';
 import helmet from 'helmet';
 import nocache from 'nocache';
 import compression from 'compression';
 import logger from 'morgan';
 import cors from 'cors';
 import env from 'dotenv';
-
+import grpcServer from './src/interfaces/grpc-config/grpc-server';
+import addNewCP from './src/application/events/consumer/add-new-cp';
+import acceptBookedFdm from './src/application/events/consumer/assign-fdm-cp';
+import removeSendingFdm from './src/application/events/consumer/remove-sending-fdm';
 
 class nodeApp {
-  public  app: Application
+  public app: Application
 
   constructor() {
+    env.config()
     this.app = express()
 
     this.initialiseMiddleware()
-    this.initialiseRoutes()
-    env.config()
-    
+    this.initiliseGatewayListner()
+    this.messageConsumers()
   }
 
 
@@ -31,12 +33,18 @@ class nodeApp {
     this.app.use(express.urlencoded({ extended: false }));
   }
 
-  private initialiseRoutes(): void {
-    this.app.use('/nodal', route)
+  private messageConsumers() {
+    acceptBookedFdm()
+    addNewCP()
+    removeSendingFdm()
   }
 
-  public listen(): void {
-    this.app.listen(process.env.PORT, () => console.log('nodal service is running at', process.env.PORT))
+  private initiliseGatewayListner(): void {
+    grpcServer()
+  }
+
+  public listen(port: string): void {
+    this.app.listen(port, () => console.log('nodal service is running at', port))
   }
 }
 

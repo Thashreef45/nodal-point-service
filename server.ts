@@ -1,7 +1,3 @@
-import nodeApp from "./app";
-import registerNodal from "./src/application/rabbitMQ/consumer";
+import nodeApp from "./app"
 
-
-new nodeApp().listen()
-
-
+new nodeApp().listen(String(process.env.PORT))
