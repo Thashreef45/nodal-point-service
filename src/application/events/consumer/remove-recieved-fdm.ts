@@ -4,9 +4,9 @@ import repository from '../../../infrastructure/repositories/repository'
 config()
 
 const Url = String(process.env.RabbitMq_PORT)
-const queue = `remove-sending-fdm`
+const queue = `remove-fdm-from-nodal-recieved`
 
-const removeSendingFdm = async() =>{
+const removeRecievedFdm = async() =>{
     try {
         const connection = await amqp.connect(Url)
         const channel = await connection.createChannel()
@@ -24,8 +24,8 @@ const removeSendingFdm = async() =>{
 
 const execute = async(data:any) => {
     data = JSON.parse(data)
-    await repository.pushfdmToRecievingQueue(data.id,data.awb)
+    await repository.removeFdmFromNodalRecievingQueue(data.id,data.awb)
 }
 
-export default removeSendingFdm
+export default removeRecievedFdm
 
