@@ -38,13 +38,20 @@ export default {
     assignCpBookedFdms: async (id: string, data: [string]) => {
         return await Model.updateOne(
             { id: id },
-            { $set: { 'fdm.sending': data } })
+            { $addToSet: { 'fdm.sending': data } })
     },
 
-    removeAFdmFromSending: async (id: string, awb: string) => {
+    pushfdmToRecievingQueue: async (id: string, awb: string) => {
         return await Model.updateOne(
             { id: id },
-            { $pull: { 'fdm.sending': awb } }
+            { $addToSet: { 'fdm.received': awb } }
+        )
+    },
+
+    removeFdmFromNodalRecievingQueue : async(id:string,awb:string) => {
+        return await Model.updateOne(
+            { id: id },
+            { $pull: { 'fdm.received': awb } }
         )
     }
 

@@ -9,6 +9,9 @@ import grpcServer from './src/interfaces/grpc-config/grpc-server';
 import addNewCP from './src/application/events/consumer/add-new-cp';
 import acceptBookedFdm from './src/application/events/consumer/assign-fdm-cp';
 import removeSendingFdm from './src/application/events/consumer/remove-sending-fdm';
+import getNodalDetailsToApex from './src/application/events/consumer/get-nodal-details-to-apex';
+import pushFdmToRecievingQueue from './src/application/events/consumer/add-fdm-to-recieving';
+import removeRecievedFdm from './src/application/events/consumer/remove-recieved-fdm';
 
 class nodeApp {
   public app: Application
@@ -37,6 +40,9 @@ class nodeApp {
     acceptBookedFdm()
     addNewCP()
     removeSendingFdm()
+    getNodalDetailsToApex()
+    pushFdmToRecievingQueue()
+    removeRecievedFdm()
   }
 
   private initiliseGatewayListner(): void {
