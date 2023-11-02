@@ -12,6 +12,7 @@ import removeSendingFdm from './src/application/events/consumer/remove-sending-f
 import getNodalDetailsToApex from './src/application/events/consumer/get-nodal-details-to-apex';
 import pushFdmToRecievingQueue from './src/application/events/consumer/add-fdm-to-recieving';
 import removeRecievedFdm from './src/application/events/consumer/remove-recieved-fdm';
+import fdmToNodalSendingQueue from './src/application/events/consumer/add-fdm-to-sending';
 
 class nodeApp {
   public app: Application
@@ -43,6 +44,7 @@ class nodeApp {
     getNodalDetailsToApex()
     pushFdmToRecievingQueue()
     removeRecievedFdm()
+    fdmToNodalSendingQueue()
   }
 
   private initiliseGatewayListner(): void {

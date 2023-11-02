@@ -19,7 +19,7 @@ const nodalSchema: Schema = new Schema({
       type: [String],
       default: [],
     },
-    received: {
+    recieved: {
       type: [String],
       default: [],
     },

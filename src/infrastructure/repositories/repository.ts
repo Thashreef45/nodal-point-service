@@ -41,18 +41,29 @@ export default {
             { $addToSet: { 'fdm.sending': data } })
     },
 
+    removeFdmFromNodalSendingQueue : async (id: string, awb: string) => {
+        return await Model.updateOne(
+            { id: id },
+            { $pull: { 'fdm.sending': awb } }
+        )
+    },
+
     pushfdmToRecievingQueue: async (id: string, awb: string) => {
         return await Model.updateOne(
             { id: id },
-            { $addToSet: { 'fdm.received': awb } }
+            { $addToSet: { 'fdm.recieved': awb } }
         )
     },
 
     removeFdmFromNodalRecievingQueue : async(id:string,awb:string) => {
         return await Model.updateOne(
             { id: id },
-            { $pull: { 'fdm.received': awb } }
+            { $pull: { 'fdm.recieved': awb } }
         )
+    },
+
+    pushFdmToNodalSending : async(data:any) => {
+        return await Model.find()
     }
 
 }
